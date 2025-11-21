@@ -101,3 +101,30 @@ app.use(limiter);
     }
   }
 })();
+
+/**
+ * Handles server shutdown gracefully by disconnecting from the database.
+ *
+ * - Attempts to disconnect from the database before shutting down the server.
+ * - Logs a success message if the disconnection is successful.
+ * - If an error occurs during disconnection, it is logged to the console.
+ * - Exits the process with status code `0` (indicating a successful shutdown).
+ */
+const handleServerShutdown = async () => {
+  try {
+    console.log("Server SHUTDOWN");
+    process.exit(0);
+  } catch (err) {
+    console.log("Error during server shutdown", err);
+  }
+};
+
+/**
+ * Listens for termination signals (`SIGTERM` and `SIGINT`).
+ *
+ * - `SIGTERM` is typically sent when stopping a process (e.g., `kill` command or container shutdown).
+ * - `SIGINT` is triggered when the user interrupts the process (e.g., pressing `Ctrl + C`).
+ * - When either signal is received, `handleServerShutdown` is executed to ensure proper cleanup.
+ */
+process.on("SIGTERM", handleServerShutdown);
+process.on("SIGINT", handleServerShutdown);
