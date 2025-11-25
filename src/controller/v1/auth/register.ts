@@ -10,6 +10,7 @@ import { generateAccessToken, generateRefreshToken } from "@/lib/jwt";
 import { logger } from "@/lib/winston";
 import config from "@/config";
 import { genUsername } from "@/utils";
+import { registerUserSchema } from "@/validators/auth-validators";
 
 /**
  * Models
@@ -21,7 +22,6 @@ import Token from "@/models/token";
  * Types
  */
 import type { Request, Response } from "express";
-import { registerUserSchema } from "@/validators/auth-validators";
 // import type { IUser } from "@/models/user";
 
 // type UserData = Pick<IUser, "email" | "password" | "role">;
