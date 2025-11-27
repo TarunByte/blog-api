@@ -24,6 +24,7 @@ import updateCurrentUser from "@/controller/v1/user/update_current_user";
  * Models
  */
 import User from "@/models/user";
+import deleteCurrentUser from "@/controller/v1/user/delete_current_user";
 
 const router = Router();
 
