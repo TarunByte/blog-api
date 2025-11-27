@@ -42,4 +42,11 @@ router.put(
   updateCurrentUser
 );
 
+router.delete(
+  "/current",
+  authenticate,
+  authorize(["admin", "user"]),
+  deleteCurrentUser
+);
+
 export default router;
