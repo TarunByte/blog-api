@@ -23,8 +23,8 @@ import updateCurrentUser from "@/controller/v1/user/update_current_user";
 /**
  * Models
  */
-import User from "@/models/user";
 import deleteCurrentUser from "@/controller/v1/user/delete_current_user";
+import getAllUser from "@/controller/v1/user/get_all_user";
 
 const router = Router();
 
@@ -48,5 +48,7 @@ router.delete(
   authorize(["admin", "user"]),
   deleteCurrentUser
 );
+
+router.get("/", authenticate, authorize(["admin"]), getAllUser);
 
 export default router;

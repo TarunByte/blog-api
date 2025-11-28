@@ -29,6 +29,8 @@ const config = {
     "mohammadsadee24@gmail.com",
     "codewithsadee@gmail.com",
   ],
+  defaultResLimit: 20,
+  defaultResOffset: 0,
 };
 
 export default config;

@@ -81,3 +81,23 @@ export const updateUserSchema = z.object({
   x: socialLinkSchema,
   youtube: socialLinkSchema,
 });
+
+export const paginationSchema = z.object({
+  limit: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : undefined))
+    .refine(
+      (val) => val === undefined || (val >= 1 && val <= 50),
+      "Limit must be between 1 to 50"
+    ),
+
+  offset: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : undefined))
+    .refine(
+      (val) => val === undefined || val >= 0,
+      "Offset must be 0 or greater"
+    ),
+});
