@@ -19,12 +19,13 @@ import authorize from "@/middleware/authorize";
  */
 import getCurrentUser from "@/controller/v1/user/get_current_user";
 import updateCurrentUser from "@/controller/v1/user/update_current_user";
+import deleteCurrentUser from "@/controller/v1/user/delete_current_user";
+import getAllUser from "@/controller/v1/user/get_all_user";
+import getUser from "@/controller/v1/user/get_user";
 
 /**
  * Models
  */
-import deleteCurrentUser from "@/controller/v1/user/delete_current_user";
-import getAllUser from "@/controller/v1/user/get_all_user";
 
 const router = Router();
 
@@ -50,5 +51,7 @@ router.delete(
 );
 
 router.get("/", authenticate, authorize(["admin"]), getAllUser);
+
+router.get("/:userId", authenticate, authorize(["admin"]), getUser);
 
 export default router;

@@ -101,3 +101,10 @@ export const paginationSchema = z.object({
       "Offset must be 0 or greater"
     ),
 });
+
+export const userIdParamSchema = z.object({
+  userId: z
+    .string({ message: "User ID is required" })
+    .min(1, "User id cannot be empty")
+    .regex(/^[0-9a-fA-F]{24}$/, "Invalid user ID"),
+});
