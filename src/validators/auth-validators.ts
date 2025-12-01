@@ -1,5 +1,5 @@
 import User from "@/models/user";
-import z, { email } from "zod";
+import z from "zod";
 
 const emailSchema = z
   .string()
