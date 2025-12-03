@@ -21,6 +21,7 @@ import uploadBlogBanner from "@/middleware/uploadBlogBanner";
  * Controllers
  */
 import createBlog from "@/controller/v1/blog/create_blog";
+import getAllBlogs from "@/controller/v1/blog/get_all_blogs";
 
 /**
  * Models
@@ -39,4 +40,5 @@ router.post(
   createBlog
 );
 
+router.get("/", authenticate, authorize(["admin", "user"]), getAllBlogs);
 export default router;
