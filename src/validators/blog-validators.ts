@@ -19,3 +19,9 @@ export const blogSchema = z.object({
       message: "Status must be draft or published",
     }),
 });
+
+export const slugSchema = z.object({
+  slug: z
+    .string({ message: "Slug is required" })
+    .min(1, "Slug cannot be empty"),
+});

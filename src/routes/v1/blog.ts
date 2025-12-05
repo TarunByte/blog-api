@@ -23,6 +23,7 @@ import uploadBlogBanner from "@/middleware/uploadBlogBanner";
 import createBlog from "@/controller/v1/blog/create_blog";
 import getAllBlogs from "@/controller/v1/blog/get_all_blogs";
 import getBlogsByUser from "@/controller/v1/blog/get_blogs_by_user";
+import getBlogBySlug from "@/controller/v1/blog/get_blog_by_slug";
 
 /**
  * Models
@@ -49,5 +50,7 @@ router.get(
   authorize(["admin", "user"]),
   getBlogsByUser
 );
+
+router.get("/:slug", authenticate, authorize(["admin", "user"]), getBlogBySlug);
 
 export default router;
