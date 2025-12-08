@@ -8,6 +8,7 @@
  */
 import { logger } from "@/lib/winston";
 import uploadToCloudinary from "@/lib/cloudinary";
+import { blogIdSchema } from "@/validators/blog-validators";
 
 /**
  * Models
@@ -48,13 +49,26 @@ const uploadBlogBanner = (method: "post" | "put") => {
       return;
     }
 
+    const parsed = blogIdSchema.safeParse(req.params);
+
+    if (!parsed.success) {
+      // validation fail
+      res.status(400).json({
+        message: "Validation failed",
+        errors: parsed.error.issues,
+      });
+      logger.warn(parsed.error.issues.map((issues) => issues.message));
+      return;
+    }
+
+    const { blogId } = parsed.data;
+
     try {
-      //   const { blogId } = req.params;
-      //   const blog = await Blog.findById(blogId).select("banner.publicId").exec();
+      const blog = await Blog.findById(blogId).select("banner.publicId").exec();
 
       const data = await uploadToCloudinary(
-        req.file.buffer
-        // blog?.banner.publicId.replace("blog-api/", "")
+        req.file.buffer,
+        blog?.banner.publicId.replace("blog-api/", "")
       );
 
       if (!data) {
@@ -64,8 +78,8 @@ const uploadBlogBanner = (method: "post" | "put") => {
         });
 
         logger.error("Error while uploading blog banner to cloudinary", {
-          //   blogId,
-          //   publicId: blog?.banner.publicId,
+          blogId,
+          publicId: blog?.banner.publicId,
         });
         return;
       }
@@ -78,7 +92,7 @@ const uploadBlogBanner = (method: "post" | "put") => {
       };
 
       logger.info("Blog banner uploaded to Cloudinary", {
-        // blogId,
+        blogId,
         banner: newBanner,
       });
 

@@ -24,6 +24,7 @@ import createBlog from "@/controller/v1/blog/create_blog";
 import getAllBlogs from "@/controller/v1/blog/get_all_blogs";
 import getBlogsByUser from "@/controller/v1/blog/get_blogs_by_user";
 import getBlogBySlug from "@/controller/v1/blog/get_blog_by_slug";
+import updateBlog from "@/controller/v1/blog/update_blog";
 
 /**
  * Models
@@ -52,5 +53,14 @@ router.get(
 );
 
 router.get("/:slug", authenticate, authorize(["admin", "user"]), getBlogBySlug);
+
+router.put(
+  "/:blogId",
+  authenticate,
+  authorize(["admin"]),
+  upload.single("banner_image"),
+  uploadBlogBanner("put"),
+  updateBlog
+);
 
 export default router;
