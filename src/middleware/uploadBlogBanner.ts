@@ -49,19 +49,29 @@ const uploadBlogBanner = (method: "post" | "put") => {
       return;
     }
 
-    const parsed = blogIdSchema.safeParse(req.params);
+    let parsedBlogId: any;
 
-    if (!parsed.success) {
-      // validation fail
-      res.status(400).json({
-        message: "Validation failed",
-        errors: parsed.error.issues,
-      });
-      logger.warn(parsed.error.issues.map((issues) => issues.message));
-      return;
+    if (method === "post") {
+      parsedBlogId = req.params;
     }
 
-    const { blogId } = parsed.data;
+    if (method === "put") {
+      const parsed = blogIdSchema.safeParse(req.params);
+
+      if (!parsed.success) {
+        // validation fail
+        res.status(400).json({
+          message: "Validation failed",
+          errors: parsed.error.issues,
+        });
+        logger.warn(parsed.error.issues.map((issues) => issues.message));
+        return;
+      }
+
+      parsedBlogId = parsed.data;
+    }
+
+    const { blogId } = parsedBlogId;
 
     try {
       const blog = await Blog.findById(blogId).select("banner.publicId").exec();
