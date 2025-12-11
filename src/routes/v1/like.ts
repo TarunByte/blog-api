@@ -18,6 +18,7 @@ import authenticate from "@/middleware/authenticate";
  * Controllers
  */
 import likeBlog from "@/controller/v1/like/like_blog";
+import unlikeBlog from "@/controller/v1/like/unlike_blog";
 
 const router = Router();
 
@@ -26,6 +27,13 @@ router.post(
   authenticate,
   authorize(["admin", "user"]),
   likeBlog
+);
+
+router.delete(
+  "/blog/:blogId",
+  authenticate,
+  authorize(["admin", "user"]),
+  unlikeBlog
 );
 
 export default router;
