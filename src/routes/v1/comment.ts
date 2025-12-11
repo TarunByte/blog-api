@@ -18,6 +18,7 @@ import authenticate from "@/middleware/authenticate";
  * Controllers
  */
 import commentBlog from "@/controller/v1/comment/comment_blog";
+import getCommentsByBlog from "@/controller/v1/comment/get_comments_by_blog";
 
 const router = Router();
 
@@ -26,6 +27,13 @@ router.post(
   authenticate,
   authorize(["admin", "user"]),
   commentBlog
+);
+
+router.get(
+  "/blog/:blogId",
+  authenticate,
+  authorize(["admin", "user"]),
+  getCommentsByBlog
 );
 
 export default router;
