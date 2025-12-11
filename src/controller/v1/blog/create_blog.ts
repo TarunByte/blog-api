@@ -18,12 +18,13 @@ import { blogSchema } from "@/validators/blog-validators";
 /**
  * Models
  */
-import Blog, { IBlog } from "@/models/blog";
+import Blog from "@/models/blog";
 
 /**
  * Types
  */
 import type { Request, Response } from "express";
+import type { IBlog } from "@/models/blog";
 
 type BlogData = Pick<IBlog, "banner">;
 
