@@ -19,6 +19,7 @@ import authenticate from "@/middleware/authenticate";
  */
 import commentBlog from "@/controller/v1/comment/comment_blog";
 import getCommentsByBlog from "@/controller/v1/comment/get_comments_by_blog";
+import deleteComment from "@/controller/v1/comment/delete_comment";
 
 const router = Router();
 
@@ -34,6 +35,13 @@ router.get(
   authenticate,
   authorize(["admin", "user"]),
   getCommentsByBlog
+);
+
+router.delete(
+  "/:commentId",
+  authenticate,
+  authorize(["admin", "user"]),
+  deleteComment
 );
 
 export default router;
