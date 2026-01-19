@@ -11,12 +11,14 @@ import { createBrowserRouter } from "react-router";
 /**
  * Loaders
  */
+import refreshTokenLoader from "@/routes/loaders/refreshToken";
 
 /**
  * Pages
  */
 import { Login } from "@/pages/auth/Login";
 import { Signup } from "@/pages/auth/Signup";
+import { RootLayout } from "@/components/layouts/Root";
 
 /**
  * Actions
@@ -41,9 +43,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/refresh-token",
+    loader: refreshTokenLoader,
   },
   {
     path: "/",
+    Component: RootLayout,
     children: [
       {
         index: true,
