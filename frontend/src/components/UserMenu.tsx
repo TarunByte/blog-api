@@ -73,7 +73,7 @@ export const UserMenu = () => {
             )}
 
             <SettingsDialog>
-              <DropdownMenuItem>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                 <SettingsIcon />
                 Settings
               </DropdownMenuItem>

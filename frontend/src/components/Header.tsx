@@ -39,7 +39,7 @@ export const Header = ({
   ...props
 }: React.ComponentProps<"header">) => {
   const user = useUser();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header
@@ -85,6 +85,16 @@ export const Header = ({
           <ThemeToggle />
 
           <UserMenu />
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            className="md:hidden"
+          >
+            {mobileMenuOpen ? <XIcon /> : <MenuIcon />}
+          </Button>
         </div>
       </div>
     </header>

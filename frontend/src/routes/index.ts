@@ -25,6 +25,7 @@ import { RootLayout } from "@/components/layouts/Root";
  */
 import signupAction from "@/routes/actions/auth/signup";
 import loginAction from "@/routes/actions/auth/login";
+import settingsAction from "@/routes/actions/user/settings";
 
 /**
  * Error boundaries
@@ -85,6 +86,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/settings",
+    action: settingsAction,
   },
 ]);
 
