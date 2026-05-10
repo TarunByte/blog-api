@@ -17,19 +17,13 @@ import { bigblogApi } from "@/api";
  * Types
  */
 import type { LoaderFunction } from "react-router";
-import type { Blog, PaginatedResponse } from "@/types";
 import { AxiosError } from "axios";
 
-export interface HomeLoaderResponse {
-  recentBlog: PaginatedResponse<Blog, "blogs">;
-  allBlog: PaginatedResponse<Blog, "blogs">;
-}
-
-const homeLoader: LoaderFunction = async () => {
+const blogDetail: LoaderFunction = async ({ params }) => {
+  const slug = params.slug;
   const accessToken = localStorage.getItem("accessToken");
 
   // if (!accessToken) return redirect("/");
-
   const headers = accessToken
     ? {
         Authorization: `Bearer ${accessToken}`,
@@ -37,22 +31,12 @@ const homeLoader: LoaderFunction = async () => {
     : {};
 
   try {
-    const { data: recentBlog } = await bigblogApi.get("/blogs", {
-      params: { limit: 4 },
+    const { data } = await bigblogApi.get(`/blogs/${slug}`, {
       headers,
       withCredentials: true,
     });
 
-    const { data: allBlog } = await bigblogApi.get("/blogs", {
-      params: {
-        offset: 4,
-        limit: 12,
-      },
-      headers,
-      withCredentials: true,
-    });
-
-    return { recentBlog, allBlog } as HomeLoaderResponse;
+    return data;
   } catch (err) {
     if (err instanceof AxiosError) {
       throw data(err.response?.data.message || err.message, {
@@ -65,4 +49,4 @@ const homeLoader: LoaderFunction = async () => {
   }
 };
 
-export default homeLoader;
+export default blogDetail;
