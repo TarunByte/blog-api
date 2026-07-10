@@ -6,7 +6,7 @@
 /**
  * Node modules
  */
-import { data, redirect } from "react-router";
+import { data } from "react-router";
 
 /**
  * Custom modules
@@ -20,25 +20,16 @@ import type { LoaderFunction } from "react-router";
 import type { Blog, PaginatedResponse } from "@/types";
 import { AxiosError } from "axios";
 
-const userBlogLoader: LoaderFunction = async ({ request }) => {
+const allBlogLoader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
+  const offset = url.searchParams.get("offset") || 0;
+  const limit = url.searchParams.get("limit") || 10;
   const accessToken = localStorage.getItem("accessToken");
-
-  // if (!accessToken) return redirect("/");
-
-  const headers = accessToken
-    ? {
-        Authorization: `Bearer ${accessToken}`,
-      }
-    : {};
 
   try {
     const response = await bigblogApi.get("/blogs", {
-      params: Object.fromEntries(url.searchParams),
-      headers,
-      withCredentials: true,
+      params: { offset, limit },
     });
-
     const data = response.data as PaginatedResponse<Blog, "blogs">;
 
     return data;
@@ -54,4 +45,4 @@ const userBlogLoader: LoaderFunction = async ({ request }) => {
   }
 };
 
-export default userBlogLoader;
+export default allBlogLoader;

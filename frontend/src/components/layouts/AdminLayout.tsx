@@ -22,6 +22,8 @@ export const AdminLayout = () => {
 
       <SidebarInset className="relative max-h-[calc(100dvh-16px)] overflow-auto">
         <TopAppBar />
+
+        <Outlet />
       </SidebarInset>
     </SidebarProvider>
   );

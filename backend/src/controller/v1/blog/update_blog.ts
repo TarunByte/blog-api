@@ -13,7 +13,7 @@ import { JSDOM } from "jsdom";
  * Custom modules
  */
 import { logger } from "@/lib/winston";
-import { blogIdSchema, updateBlogSchema } from "@/validators/blog-validators";
+import { updateBlogSchema, slugSchema } from "@/validators/blog-validators";
 
 /**
  * Models
@@ -49,24 +49,24 @@ const updateBlog = async (req: Request, res: Response): Promise<void> => {
   }
   const { title, content, status } = parsed.data;
 
-  const parsedBlogId = blogIdSchema.safeParse(req.params);
+  const parsedSlug = slugSchema.safeParse(req.params);
 
-  if (!parsedBlogId.success) {
+  if (!parsedSlug.success) {
     // validation fail
     res.status(400).json({
       message: "Validation failed",
-      errors: parsedBlogId.error.issues,
+      errors: parsedSlug.error.issues,
     });
-    logger.warn(parsedBlogId.error.issues.map((issue) => issue.message));
+    logger.warn(parsedSlug.error.issues.map((issue) => issue.message));
     return;
   }
-  const { blogId } = parsedBlogId.data;
+  const { slug } = parsedSlug.data;
 
   try {
     const userId = req.userId;
 
     const user = await User.findById(userId).select("role").lean().exec();
-    const blog = await Blog.findById(blogId).select("-__v").exec();
+    const blog = await Blog.findOne({ slug }).select("-__v").exec();
 
     if (!blog) {
       res.status(404).json({

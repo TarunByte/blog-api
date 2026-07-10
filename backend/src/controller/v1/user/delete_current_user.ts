@@ -26,7 +26,7 @@ import type { Request, Response } from "express";
 
 const deleteCurrentUser = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const userId = req.userId;
 
@@ -36,10 +36,15 @@ const deleteCurrentUser = async (
       .lean()
       .exec();
 
-    const publicIds = blogs.map(({ banner }) => banner.publicId);
-    await cloudinary.api.delete_resources(publicIds);
+    const publicIds = blogs
+      .map((blog) => blog.banner?.publicId)
+      .filter(Boolean);
 
-    logger.info("Multiple blog banners deleted from Cloudinary", { publicIds });
+    if (publicIds.length > 0) {
+      console.log("CALLING CLOUDINARY");
+
+      await cloudinary.api.delete_resources(publicIds);
+    }
 
     await Blog.deleteMany({ author: userId });
     logger.info("Multiple blogs deleted", {

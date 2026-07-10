@@ -20,28 +20,33 @@ import authenticate from "@/middleware/authenticate";
 import commentBlog from "@/controller/v1/comment/comment_blog";
 import getCommentsByBlog from "@/controller/v1/comment/get_comments_by_blog";
 import deleteComment from "@/controller/v1/comment/delete_comment";
+import getAllComments from "@/controller/v1/comment/get_all_comments";
 
 const router = Router();
+
+console.log("comment routes loaded");
+
+router.get("/", getAllComments);
 
 router.post(
   "/blog/:blogId",
   authenticate,
   authorize(["admin", "user"]),
-  commentBlog
+  commentBlog,
 );
 
 router.get(
   "/blog/:blogId",
   authenticate,
   authorize(["admin", "user"]),
-  getCommentsByBlog
+  getCommentsByBlog,
 );
 
 router.delete(
   "/:commentId",
   authenticate,
   authorize(["admin", "user"]),
-  deleteComment
+  deleteComment,
 );
 
 export default router;

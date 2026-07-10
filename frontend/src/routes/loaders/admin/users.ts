@@ -17,29 +17,21 @@ import { bigblogApi } from "@/api";
  * Types
  */
 import type { LoaderFunction } from "react-router";
-import type { Blog, PaginatedResponse } from "@/types";
 import { AxiosError } from "axios";
 
-const userBlogLoader: LoaderFunction = async ({ request }) => {
+const allUserLoader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const accessToken = localStorage.getItem("accessToken");
 
-  // if (!accessToken) return redirect("/");
-
-  const headers = accessToken
-    ? {
-        Authorization: `Bearer ${accessToken}`,
-      }
-    : {};
+  if (!accessToken) return redirect("/");
 
   try {
-    const response = await bigblogApi.get("/blogs", {
-      params: Object.fromEntries(url.searchParams),
-      headers,
-      withCredentials: true,
+    const { data } = await bigblogApi.get("/users", {
+      params: { ...Object.fromEntries(url.searchParams.entries()) },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-
-    const data = response.data as PaginatedResponse<Blog, "blogs">;
 
     return data;
   } catch (err) {
@@ -54,4 +46,4 @@ const userBlogLoader: LoaderFunction = async ({ request }) => {
   }
 };
 
-export default userBlogLoader;
+export default allUserLoader;

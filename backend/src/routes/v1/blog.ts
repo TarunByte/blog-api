@@ -41,27 +41,22 @@ router.post(
   // body("baanner_image").notEmpty().withMessage("Banner image is required"),
   upload.single("banner_image"),
   uploadBlogBanner("post"),
-  createBlog
+  createBlog,
 );
 
-router.get("/", authenticate, authorize(["admin", "user"]), getAllBlogs);
+router.get("/", getAllBlogs);
 
-router.get(
-  "/user/:userId",
-  authenticate,
-  authorize(["admin", "user"]),
-  getBlogsByUser
-);
+router.get("/user/:userId", getBlogsByUser);
 
-router.get("/:slug", authenticate, authorize(["admin", "user"]), getBlogBySlug);
+router.get("/:slug", getBlogBySlug);
 
 router.put(
-  "/:blogId",
+  "/:slug",
   authenticate,
   authorize(["admin"]),
   upload.single("banner_image"),
   uploadBlogBanner("put"),
-  updateBlog
+  updateBlog,
 );
 
 router.delete("/:blogId", authenticate, authorize(["admin"]), deleteBlog);

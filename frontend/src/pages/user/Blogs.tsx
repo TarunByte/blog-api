@@ -57,6 +57,11 @@ export const Blogs = ({
 }: React.ComponentProps<"section">) => {
   const loaderData = useLoaderData() as PaginatedResponse<BlogType, "blogs">;
 
+  console.log("BLOGS COMPONENT RENDERED");
+  console.log("PATH:", window.location.pathname);
+
+  console.log("loaderData= ", loaderData);
+
   const { blogs } = loaderData;
 
   return (
@@ -113,9 +118,7 @@ export const Blogs = ({
               },
             }}
           >
-            <Button size="lg" asChild>
-              See all blogs
-            </Button>
+            <Button size="lg">See all blogs</Button>
           </motion.div>
         </div>
       </section>

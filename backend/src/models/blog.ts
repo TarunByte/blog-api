@@ -98,7 +98,7 @@ const blogSchema = new Schema<IBlog>(
     timestamps: {
       createdAt: "publishedAt",
     },
-  }
+  },
 );
 
 blogSchema.pre("validate", function (next) {
